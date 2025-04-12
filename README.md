@@ -14,16 +14,16 @@ I am passionate about building real-world AI applications, solving data-driven p
 
 some Projects  
 
- Real-time Recommendation System  
-A reinforcement learning-based system for personalized recommendations.  
+ Share prediction:
+ I used previous data for share prediction of BARUN hydropower, used linear regression and was my first project.
 
 eHike: Trekking Gear Rental Platform  
 An e-commerce website built with Django for renting trekking gear.  
 
  Predictive Analytics for Customer Churn  
-A machine learning model to predict customer churn for businesses.  
+A machine learning model to predict customer churn for businesses.What I performed was rental prediction taking data from kaggle.  
 
  Image Classification with CNNs (Ongoing)  
-A deep learning model for classifying images using CNNs.  
+A deep learning model for classifying images using CNNs. Cat or dog 
 
-More projects can be found in my Github.
+More projects can be found in my Github.All projects which I performed using each algorithm of ML  do already exist but I did it following course guidiance.
