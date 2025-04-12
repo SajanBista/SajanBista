@@ -26,4 +26,4 @@ A machine learning model to predict customer churn for businesses.What I perform
  Image Classification with CNNs (Ongoing)  
 A deep learning model for classifying images using CNNs. Cat or dog 
 
-More projects can be found in my Github.All projects which I performed using each algorithm of ML  do already exist but I did it following course guidiance.
+More projects can be found in my Github.
