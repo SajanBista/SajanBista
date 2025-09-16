@@ -5,7 +5,7 @@ I am passionate about building real-world AI applications, solving data-driven p
 
  Skills  
 
-- Programming Languages: Python, Java, SQL ,C#
+- Programming Languages: Python, SQL ,C#
 - Machine Learning: Scikit-Learn, Pandas, NumPy, Matplotlib, Seaborn 
 - Deep Learning: TensorFlow, PyTorch (currently learning)  
 - Web Development: Django, HTML, CSS, JavaScript  
