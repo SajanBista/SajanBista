@@ -1,6 +1,5 @@
-# 👋 Hi, I'm Sajan Bista  
-
-🚀 **AI & Data Science Enthusiast** | 🤖 Machine Learning | 🧠 Deep Learning | 🌐 Web Development  
+#  Hi, I'm Sajan Bista  
+=**AI & Data Science Enthusiast** |  Machine Learning |  Deep Learning | Web Development  
 
 I love building **real-world AI applications**, solving **data-driven problems**, and exploring **cutting-edge technologies**.  
 Currently diving deeper into **Neural Networks & Deep Learning**. Always open to **collaboration** and **open-source contributions**.  
@@ -53,7 +52,9 @@ Currently diving deeper into **Neural Networks & Deep Learning**. Always open to
 - ML model to predict **customer churn** using Kaggle rental data.  
 
 🔹 **[Image Classification with CNNs (Ongoing)]()**  
-- Deep learning model classifying **Cats vs Dogs**.  
+- Deep learning model classifying **Cats vs Dogs**.
+
+
 
 👉 *More projects available on my [GitHub Repositories](https://github.com/yourusername)*  
 
