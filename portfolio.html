@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sajan Bista Automations</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one narrow column — header with live Kathmandu clock, toolbar, card grid where each card reads as a pipeline (trigger → steps → output), then a contact band. Crimson + deep blue from the Nepali flag. */
+:root{
+  --bg:#f5f6f9; --surface:#ffffff; --fg:#141a2e; --muted:#5b6380; --line:#dde1ea;
+  --accent:#c8102e; --accent-soft:#fbe7ea; --navy:#1d2b64; --navy-soft:#e6eaf6;
+  --ok:#1f7a4d; --ok-soft:#e3f3ea; --warn:#9a5b00; --warn-soft:#fbf0dc;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0d1120; --surface:#151a2d; --fg:#e8eaf3; --muted:#9aa2bf; --line:#262d47;
+  --accent:#ff4d64; --accent-soft:#3a1620; --navy:#9fb1ff; --navy-soft:#1c2547;
+  --ok:#5fd39a; --ok-soft:#12301f; --warn:#f2b45a; --warn-soft:#33240c; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0d1120; --surface:#151a2d; --fg:#e8eaf3; --muted:#9aa2bf; --line:#262d47;
+  --accent:#ff4d64; --accent-soft:#3a1620; --navy:#9fb1ff; --navy-soft:#1c2547;
+  --ok:#5fd39a; --ok-soft:#12301f; --warn:#f2b45a; --warn-soft:#33240c; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:15px/1.55 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1080px;margin:0 auto;padding-block:40px 56px;display:flex;flex-direction:column;gap:32px}
+a{color:var(--navy)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+header{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end}
+@media (max-width:720px){header{grid-template-columns:1fr}}
+.who{display:flex;align-items:center;gap:10px;font-weight:600}
+.mark{width:34px;height:34px;border-radius:8px;background:var(--navy);color:var(--bg);display:grid;place-items:center;font:800 16px var(--display)}
+h1{font:800 clamp(34px,6vw,58px)/1.02 var(--display);letter-spacing:-.02em;margin:14px 0 12px;text-wrap:balance}
+h1 em{font-style:normal;color:var(--accent)}
+.lede{color:var(--muted);max-width:60ch;margin:0}
+.clock{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:14px 16px;min-width:220px;display:flex;flex-direction:column;gap:4px}
+.clock .lbl{font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.clock .t{font:700 28px var(--display);font-variant-numeric:tabular-nums}
+.clock .s{font-size:13px;color:var(--muted)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:1px}
+
+.stats{display:flex;flex-wrap:wrap;gap:8px 28px;font-size:14px;color:var(--muted)}
+.stats b{font:700 20px var(--display);color:var(--fg);margin-right:6px;font-variant-numeric:tabular-nums}
+
+.note{font-size:13px;color:var(--warn);background:var(--warn-soft);border-radius:8px;padding:8px 12px}
+
+.toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.search{flex:1 1 260px;position:relative}
+.search input{width:100%;font:inherit;padding:10px 40px 10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--fg)}
+.search kbd{position:absolute;right:10px;top:50%;transform:translateY(-50%);font:500 12px var(--mono);border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--muted)}
+select{font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--fg)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;width:100%}
+.chip{font:500 13px var(--body);border:1px solid var(--line);background:transparent;color:var(--fg);padding:6px 12px;border-radius:999px;cursor:pointer}
+.chip span{color:var(--muted);margin-left:4px;font-variant-numeric:tabular-nums}
+.chip[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:var(--bg)}
+.chip[aria-pressed="true"] span{color:inherit;opacity:.75}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.card:hover{border-color:var(--navy)}
+.top{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.cat{font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.status{font:500 12px var(--body);padding:2px 9px;border-radius:999px;white-space:nowrap}
+.status.live{background:var(--ok-soft);color:var(--ok)}
+.status.private{background:var(--navy-soft);color:var(--navy)}
+.status.building{background:var(--warn-soft);color:var(--warn)}
+.card h3{font:700 19px/1.2 var(--display);margin:0;text-wrap:balance}
+.card p{margin:0;color:var(--muted);font-size:14px}
+.pipe{display:flex;flex-wrap:wrap;align-items:center;gap:4px;font:400 12px var(--mono)}
+.pipe .step{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:2px 7px}
+.pipe .step.ai{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.pipe .arr{color:var(--muted)}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:auto;padding-top:10px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.foot b{color:var(--fg);font-variant-numeric:tabular-nums}
+.foot a{font-weight:600;text-decoration:none}
+.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:40px 0}
+.more{grid-column:1/-1;display:flex;justify-content:center;padding-top:8px}
+.more button{font:600 14px var(--body);background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:10px;padding:10px 20px;cursor:pointer}
+.more button:hover{border-color:var(--navy)}
+
+.contact{background:var(--navy);color:var(--bg);border-radius:14px;padding:28px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
+@media (max-width:720px){.contact{grid-template-columns:1fr}}
+.contact h2{font:800 28px/1.1 var(--display);margin:0 0 8px;text-wrap:balance}
+.contact p{margin:0;opacity:.85;max-width:56ch}
+.mailbox{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.mailbox code{font:500 15px var(--mono);background:rgba(255,255,255,.12);padding:9px 12px;border-radius:8px;user-select:all;word-break:break-all}
+.btn{font:600 14px var(--body);background:var(--accent);color:#fff;border:0;border-radius:8px;padding:10px 16px;cursor:pointer}
+footer{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--muted)}
+footer a{font-weight:600;text-decoration:none}
+@media (prefers-reduced-motion:no-preference){.card{transition:border-color .15s}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <div class="who"><div class="mark">SB</div>MrDoe · Sajan Bista · Apify developer, Kathmandu</div>
+      <h1>Workflows that run <em>while you sleep</em></h1>
+      <p class="lede">Business automations, AI agents built on Claude Code, and data scrapers. Pick something below to use as-is, or tell me what your team does by hand and I'll automate it.</p>
+    </div>
+    <div class="clock" aria-live="polite">
+      <span class="lbl">Kathmandu · UTC+5:45</span>
+      <span class="t" id="npt">--:--</span>
+      <span class="s" id="avail"></span>
+    </div>
+  </header>
+
+  <div class="stats" id="stats"></div>
+  <div class="note" id="sampleNote">Sample entries — real Apify actors (mrdoe) load here once the fetch step runs. See README.</div>
+
+  <div class="toolbar">
+    <div class="search">
+      <input id="q" type="search" placeholder="Search by tool, site or task (e.g. Gmail, Zillow, invoices)" aria-label="Search projects">
+      <kbd>/</kbd>
+    </div>
+    <select id="sort" aria-label="Sort projects">
+      <option value="users" selected>Most used</option>
+      <option value="new">Newest first</option>
+      <option value="az">A → Z</option>
+    </select>
+    <div class="chips" id="chips" role="group" aria-label="Filter by category"></div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <section class="contact">
+    <div>
+      <h2>Need something that isn't listed?</h2>
+      <p>Most client work stays private. Send what data you need or which task eats your week, and I'll reply with a fixed quote within a day.</p>
+    </div>
+    <div class="mailbox">
+      <code id="mail">bistasajan681@gmail.com</code>
+      <button class="btn" id="copy">Copy email</button>
+    </div>
+  </section>
+
+  <footer>
+    <span>Available on Fiverr · Apify · GitHub</span>
+    <a href="https://apify.com/mrdoe" target="_blank" rel="noopener">Apify profile ↗</a>
+    <span>Replies within 8 hours, Sunday–Friday</span>
+  </footer>
+</div>
+
+<script>
+// Edit this list. status: "live" | "private" | "building". ai: steps that use Claude.
+// NOTE: placeholder data. Replace by running the Apify Store API fetch for username "mrdoe"
+// (blocked from this sandbox session — see README) and regenerating this array from
+// ./data/projects.json.
+const PROJECTS = [
+  {name:"Invoice inbox to ledger", cat:"Business automation", status:"private", date:"2026-10-12", users:0,
+   desc:"Reads supplier invoices from Gmail, extracts line items with Claude and posts draft bills to QuickBooks for approval.",
+   pipe:["Gmail","Claude extract","QuickBooks draft"], ai:[1], link:""},
+  {name:"Lead reply agent", cat:"AI agents", status:"live", date:"2026-10-02", users:38,
+   desc:"Qualifies new website form leads, drafts a reply in the owner's voice and books a call slot from Google Calendar.",
+   pipe:["Web form","Claude qualify","Calendar","Gmail draft"], ai:[1], link:""},
+  {name:"Hamrobazar listings scraper", cat:"Scrapers", status:"live", date:"2026-09-20", users:142,
+   desc:"Pulls classified listings with price, location and seller info. Exports CSV, JSON or Excel.",
+   pipe:["Hamrobazar","Clean","CSV / JSON"], ai:[], link:"https://apify.com/store"},
+  {name:"Merojob postings tracker", cat:"Scrapers", status:"live", date:"2026-09-08", users:96,
+   desc:"Daily job postings from Merojob with company, salary range and deadline, ready for a recruiting sheet.",
+   pipe:["Merojob","Dedupe","Google Sheets"], ai:[], link:"https://apify.com/store"},
+  {name:"Support ticket triage", cat:"AI agents", status:"building", date:"2026-10-24", users:0,
+   desc:"Tags incoming Zendesk tickets by urgency and topic, answers FAQs automatically and routes the rest.",
+   pipe:["Zendesk","Claude classify","Slack alert"], ai:[1], link:""},
+  {name:"Weekly sales report", cat:"Business automation", status:"private", date:"2026-08-30", users:0,
+   desc:"Every Monday at 8:00 it combines Stripe and Shopify numbers into a one-page summary sent to the team.",
+   pipe:["Stripe","Shopify","Claude summary","Email"], ai:[2], link:""},
+  {name:"Google Maps business leads", cat:"Scrapers", status:"live", date:"2026-08-14", users:211,
+   desc:"Finds businesses by keyword and city with phone, website and rating. Built for local lead lists.",
+   pipe:["Google Maps","Enrich","Excel"], ai:[], link:"https://apify.com/store"},
+  {name:"Daraz price monitor", cat:"Scrapers", status:"live", date:"2026-07-28", users:64,
+   desc:"Tracks product prices and stock on Daraz and alerts you when a competitor changes price.",
+   pipe:["Daraz","Compare","Telegram alert"], ai:[], link:"https://apify.com/store"},
+  {name:"CRM cleanup agent", cat:"AI agents", status:"private", date:"2026-07-10", users:0,
+   desc:"Merges duplicate HubSpot contacts, fills missing company data and flags deals with no next step.",
+   pipe:["HubSpot","Claude review","HubSpot update"], ai:[1], link:""}
+];
+
+const PAGE_SIZE = 30;
+let visible = PAGE_SIZE;
+
+const $ = s => document.querySelector(s);
+const cats = ["All", ...new Set(PROJECTS.map(p => p.cat))];
+let cat = "All";
+try { const c = localStorage.getItem("cat"); if (c && cats.includes(c)) cat = c; } catch(e) {}
+
+const statusText = {live:"Live", private:"Client work", building:"In progress"};
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function stats(){
+  const live = PROJECTS.filter(p => p.status === "live").length;
+  const users = PROJECTS.reduce((a,p) => a + p.users, 0);
+  $("#stats").innerHTML =
+    `<span><b>${PROJECTS.length}</b>projects</span>` +
+    `<span><b>${live}</b>live and public</span>` +
+    `<span><b>${users.toLocaleString()}</b>monthly users</span>` +
+    `<span><b>${cats.length - 1}</b>categories</span>`;
+}
+
+function chips(){
+  $("#chips").innerHTML = cats.map(c => {
+    const n = c === "All" ? PROJECTS.length : PROJECTS.filter(p => p.cat === c).length;
+    return `<button class="chip" aria-pressed="${c === cat}" data-c="${esc(c)}">${esc(c)}<span>${n}</span></button>`;
+  }).join("");
+}
+
+function matches(){
+  const q = $("#q").value.trim().toLowerCase();
+  let list = PROJECTS.filter(p => (cat === "All" || p.cat === cat) &&
+    (!q || [p.name, p.desc, p.cat, ...p.pipe].join(" ").toLowerCase().includes(q)));
+  const s = $("#sort").value;
+  list.sort(s === "users" ? (a,b) => b.users - a.users : s === "az" ? (a,b) => a.name.localeCompare(b.name) : (a,b) => b.date.localeCompare(a.date));
+  return list;
+}
+
+function render(){
+  const q = $("#q").value.trim().toLowerCase();
+  const full = matches();
+  if (!full.length) { $("#grid").innerHTML = `<div class="empty">Nothing matches "${esc(q)}". Try a tool name like Gmail or Sheets.</div>`; return; }
+  const list = full.slice(0, visible);
+  const cards = list.map(p => {
+    const pipe = p.pipe.map((x,i) => `<span class="step${p.ai.includes(i) ? " ai" : ""}">${esc(x)}</span>`).join('<span class="arr">→</span>');
+    const used = p.users ? `<span><b>${p.users}</b> users / mo</span>` : `<span>${new Date(p.date).toLocaleDateString("en-GB",{month:"short",year:"numeric"})}</span>`;
+    const act = p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">Try it →</a>` : `<span>Ask for a demo</span>`;
+    return `<article class="card">
+      <div class="top"><span class="cat">${esc(p.cat)}</span><span class="status ${p.status}">${statusText[p.status]}</span></div>
+      <h3>${esc(p.name)}</h3><p>${esc(p.desc)}</p>
+      <div class="pipe">${pipe}</div>
+      <div class="foot">${used}${act}</div></article>`;
+  }).join("");
+  const more = full.length > visible ? `<div class="more"><button id="showMore">Show ${Math.min(PAGE_SIZE, full.length - visible)} more (${full.length - visible} left)</button></div>` : "";
+  $("#grid").innerHTML = cards + more;
+  const btn = $("#showMore");
+  if (btn) btn.addEventListener("click", () => { visible += PAGE_SIZE; render(); });
+}
+
+function resetPaging(){ visible = PAGE_SIZE; render(); }
+
+$("#chips").addEventListener("click", e => {
+  const b = e.target.closest(".chip"); if (!b) return;
+  cat = b.dataset.c; try { localStorage.setItem("cat", cat); } catch(e) {}
+  chips(); resetPaging();
+});
+$("#q").addEventListener("input", resetPaging);
+$("#sort").addEventListener("change", resetPaging);
+document.addEventListener("keydown", e => {
+  if (e.key === "/" && document.activeElement !== $("#q")) { e.preventDefault(); $("#q").focus(); }
+});
+
+$("#copy").addEventListener("click", () => {
+  const t = $("#mail").textContent, b = $("#copy");
+  const done = () => { b.textContent = "Copied"; setTimeout(() => b.textContent = "Copy email", 1800); };
+  try {
+    navigator.clipboard.writeText(t).then(done, () => sel());
+  } catch(e) { sel(); }
+  function sel(){ const r = document.createRange(); r.selectNodeContents($("#mail")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = "Press Ctrl+C"; }
+});
+
+function clock(){
+  const now = new Date(Date.now() + (5*60 + 45) * 60000);
+  const h = now.getUTCHours(), m = now.getUTCMinutes(), day = now.getUTCDay();
+  $("#npt").textContent = String(h).padStart(2,"0") + ":" + String(m).padStart(2,"0");
+  const on = day !== 6 && h >= 9 && h < 21;
+  $("#avail").innerHTML = `<span class="dot" style="background:var(${on ? "--ok" : "--muted"})"></span>` +
+    (on ? "Working now, quick replies" : "Off hours, reply by tomorrow");
+}
+
+stats(); chips(); render(); clock(); setInterval(clock, 30000);
+</script>
+</body>
+</html>
