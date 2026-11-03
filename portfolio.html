@@ -38,6 +38,7 @@ header{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end}
 @media (max-width:720px){header{grid-template-columns:1fr}}
 .who{display:flex;align-items:center;gap:10px;font-weight:600}
 .mark{width:34px;height:34px;border-radius:8px;background:var(--navy);color:var(--bg);display:grid;place-items:center;font:800 16px var(--display)}
+.avatar{width:34px;height:34px;border-radius:50%;object-fit:cover;object-position:50% 25%;flex-shrink:0;border:1px solid var(--line)}
 h1{font:800 clamp(34px,6vw,58px)/1.02 var(--display);letter-spacing:-.02em;margin:14px 0 12px;text-wrap:balance}
 h1 em{font-style:normal;color:var(--accent)}
 .lede{color:var(--muted);max-width:60ch;margin:0}
@@ -102,7 +103,7 @@ footer a{font-weight:600;text-decoration:none}
 <div class="wrap">
   <header>
     <div>
-      <div class="who"><div class="mark">SB</div>MrDoe · Sajan Bista · Apify developer, Kathmandu</div>
+      <div class="who"><img class="avatar" src="assets/profile.jpg" alt="Sajan Bista" width="34" height="34">MrDoe · Sajan Bista · Apify developer, Kathmandu</div>
       <h1>Workflows that run <em>while you sleep</em></h1>
       <p class="lede">Business automations, AI agents built on Claude Code, and data scrapers. Pick something below to use as-is, or tell me what your team does by hand and I'll automate it.</p>
     </div>
