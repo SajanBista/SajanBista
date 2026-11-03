@@ -1,0 +1,197 @@
+[
+  {
+    "name": "NFL Weekly Player Projections: Yards, TDs & Fantasy Points",
+    "cat": "Other",
+    "status": "live",
+    "date": "2026-11-03",
+    "users": 0,
+    "desc": "Projected stat lines for every NFL player each week: passing, rushing and receiving yards, touchdowns, targets and receptions, plus PPR,…",
+    "pipe": [
+      "NFL",
+      "Extract",
+      "CSV / JSON"
+    ],
+    "ai": [],
+    "link": "https://apify.com/mrdoe/nfl-fantasy-projections-weekly"
+  },
+  {
+    "name": "Expedia Hotel Scraper",
+    "cat": "Travel",
+    "status": "live",
+    "date": "2026-11-01",
+    "users": 4,
+    "desc": "Expedia hotel scraper for prices, ratings, photos, and room-by-room pricing breakdowns. Search by destination, hotel name, or URL - no API…",
+    "pipe": [
+      "Expedia",
+      "Extract",
+      "CSV / JSON"
+    ],
+    "ai": [],
+    "link": "https://apify.com/mrdoe/expedia-hotel-scraper"
+  },
+  {
+    "name": "Viral Clips Downloader - Most Replayed Moments from Any Video",
+    "cat": "Social media",
+    "status": "live",
+    "date": "2026-11-01",
+    "users": 1,
+    "desc": "Turn one video link into its top viral clips. Finds the most replayed moments and downloads each as a separate MP4, with vertical 9:16 and…",
+    "pipe": [
+      "Video link",
+      "Extract",
+      "CSV / JSON"
+    ],
+    "ai": [],
+    "link": "https://apify.com/mrdoe/viral-clips-downloader"
+  },
+  {
+    "name": "Reel.farm TikTok Slideshow Scraper",
+    "cat": "Social media",
+    "status": "live",
+    "date": "2026-11-01",
+    "users": 7,
+    "desc": "Scrape reel.farm's TikTok Slideshow creator profiles, products promoted, niches, audience regions, and likes/views/bookmarks per slideshow.…",
+    "pipe": [
+      "Reel.farm",
+      "Extract",
+      "CSV / JSON"
+    ],
+    "ai": [],
+    "link": "https://apify.com/mrdoe/reelfarm"
+  },
+  {
+    "name": "🍷Wine Searcher data scraper",
+    "cat": "E-commerce",
+    "status": "live",
+    "date": "2026-11-01",
+    "users": 1,
+    "desc": "price, ratings, critic score, and the full per-merchant offers table (merchant name, location, price, bottle size, verified status) for…",
+    "pipe": [
+      "Wine-Searcher",
+      "Extract",
+      "CSV / JSON"
+    ],
+    "ai": [],
+    "link": "https://apify.com/mrdoe/wine-searcher-data-scraper"
+  },
+  {
+    "name": "Ebay Product Scraper",
+    "cat": "Other",
+    "status": "live",
+    "date": "2026-11-01",
+    "users": 1,
+    "desc": "Extract structured data from eBay search results and listings — price, condition, seller, shipping, item specifics, images and more. No…",
+    "pipe": [
+      "eBay",
+      "Extract",
+      "CSV / JSON"
+    ],
+    "ai": [],
+    "link": "https://apify.com/mrdoe/ebay-product-scraper"
+  },
+  {
+    "name": "RealSelf Provider & Treatment Scraper",
+    "cat": "Lead generation",
+    "status": "live",
+    "date": "2026-11-01",
+    "users": 1,
+    "desc": "Scrape RealSelf providers, cosmetic treatments, procedures, reviews, ratings, prices, locations, specialties, and provider profiles. Build…",
+    "pipe": [
+      "RealSelf",
+      "Extract",
+      "CSV / JSON"
+    ],
+    "ai": [],
+    "link": "https://apify.com/mrdoe/realself-scraper"
+  },
+  {
+    "name": "AliExpress Product Scraper",
+    "cat": "Other",
+    "status": "live",
+    "date": "2026-11-01",
+    "users": 0,
+    "desc": "Extract product data from AliExpress.com anonymously — no login needed. Search by keyword for price, sold count and store info, or pull…",
+    "pipe": [
+      "AliExpress",
+      "Extract",
+      "CSV / JSON"
+    ],
+    "ai": [],
+    "link": "https://apify.com/mrdoe/aliexpress-product-scraper"
+  },
+  {
+    "name": "7-Eleven Australia Store Scraper🇦🇺",
+    "cat": "E-commerce",
+    "status": "live",
+    "date": "2026-11-01",
+    "users": 1,
+    "desc": "Scrape 7-Eleven Australia store locations and available business details, including store names, addresses, phone numbers, opening hours,…",
+    "pipe": [
+      "7-Eleven AU",
+      "Extract",
+      "CSV / JSON"
+    ],
+    "ai": [],
+    "link": "https://apify.com/mrdoe/seven-eleven-australia-scraper"
+  },
+  {
+    "name": "Screwfix Product Scraper",
+    "cat": "Other",
+    "status": "live",
+    "date": "2026-11-02",
+    "users": 1,
+    "desc": "Searches Screwfix.com - the UK's largest trade tools and hardware retailer - for any keyword and returns product name, current price,…",
+    "pipe": [
+      "Screwfix",
+      "Extract",
+      "CSV / JSON"
+    ],
+    "ai": [],
+    "link": "https://apify.com/mrdoe/screwfix-scraper"
+  },
+  {
+    "name": "Facebook Ads Library Scraper",
+    "cat": "Lead generation",
+    "status": "live",
+    "date": "2026-11-01",
+    "users": 1,
+    "desc": "Returns every currently active Facebook/Instagram ad for an advertiser or keyword, with full creative details, straight from Meta's own Ad…",
+    "pipe": [
+      "Facebook Ads Library",
+      "Extract",
+      "CSV / JSON"
+    ],
+    "ai": [],
+    "link": "https://apify.com/mrdoe/facebook-ads-library-scraper"
+  },
+  {
+    "name": "Open Food Facts Product & Price Scraper",
+    "cat": "Other",
+    "status": "live",
+    "date": "2026-11-02",
+    "users": 1,
+    "desc": "Grocery barcode lookup and product data: ingredients, allergens, Nutri-Score, NOVA, nutrition per 100g, images and crowd-sourced shop…",
+    "pipe": [
+      "Open Food Facts",
+      "Extract",
+      "CSV / JSON"
+    ],
+    "ai": [],
+    "link": "https://apify.com/mrdoe/open-food-facts-product-scraper"
+  },
+  {
+    "name": "G2 Software Reviews & Product Intelligence",
+    "cat": "Business data",
+    "status": "live",
+    "date": "2026-11-01",
+    "users": 1,
+    "desc": "Collect structured software product and review data from supported, authorized sources (JSON/CSV import or a licensed API) for SaaS…",
+    "pipe": [
+      "G2",
+      "Extract",
+      "CSV / JSON"
+    ],
+    "ai": [],
+    "link": "https://apify.com/mrdoe/japan-jgb-yields-panel"
+  }
+]
