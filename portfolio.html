@@ -87,6 +87,16 @@ select{font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius
 .more button{font:600 14px var(--body);background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:10px;padding:10px 20px;cursor:pointer}
 .more button:hover{border-color:var(--navy)}
 
+.section-h{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.section-h h2{font:800 26px var(--display);margin:0}
+.section-h p{margin:0;color:var(--muted);font-size:14px}
+
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.proj-card h3{font:700 18px/1.25 var(--display);margin:0;text-wrap:balance}
+.proj-card p{margin:0;color:var(--muted);font-size:14px}
+.proj-tech{display:flex;flex-wrap:wrap;gap:5px}
+.proj-tech span{font:500 11px var(--mono);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:2px 7px;color:var(--muted)}
+
 .contact{background:var(--navy);color:var(--bg);border-radius:14px;padding:28px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
 @media (max-width:720px){.contact{grid-template-columns:1fr}}
 .contact h2{font:800 28px/1.1 var(--display);margin:0 0 8px;text-wrap:balance}
@@ -115,6 +125,8 @@ footer a{font-weight:600;text-decoration:none}
   </header>
 
   <div class="stats" id="stats"></div>
+
+  <div class="section-h"><h2>Apify automations</h2><p>Public scraper and monitor actors — run as-is, no setup.</p></div>
   <div class="note" id="sampleNote">Showing 13 of 363 public actors (a manually-captured sample — api.apify.com is unreachable from the build environment). See README to refresh with the full list.</div>
 
   <div class="toolbar">
@@ -131,6 +143,11 @@ footer a{font-weight:600;text-decoration:none}
   </div>
 
   <div class="grid" id="grid"></div>
+
+  <section aria-labelledby="projects-h" class="space-y-ish" style="display:flex;flex-direction:column;gap:14px">
+    <div class="section-h"><h2 id="projects-h">Projects I've built</h2><p>Full products, end to end — not automation pipelines.</p></div>
+    <div class="proj-grid" id="projGrid"></div>
+  </section>
 
   <section class="contact">
     <div>
@@ -213,6 +230,9 @@ try { const c = localStorage.getItem("cat"); if (c && cats.includes(c)) cat = c;
 
 const statusText = {live:"Live", private:"Client work", building:"In progress"};
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+// A few real actor titles carry an emoji (Apify allows them); strip for display only, so
+// every card uses the same typographic style instead of mixing in platform-dependent emoji.
+const cleanTitle = s => s.replace(/(\p{Extended_Pictographic}️?|\p{Regional_Indicator}{2})/gu, "").replace(/\s{2,}/g, " ").trim();
 
 function stats(){
   $("#stats").innerHTML =
@@ -239,6 +259,35 @@ function matches(){
   return list;
 }
 
+// Full products the user has built, separate from the Apify automations above.
+// status: "live" | "private" | "building" (same meaning as the actor cards).
+// link: public URL if there's one to share. repo: public GitHub URL if the repo itself is public.
+// Leave both empty for a private repo with no public link yet.
+const BUILT_PROJECTS = [
+  {name:"Why U Mad?", status:"live", desc:"A two-player couples app: one partner taps \"I'm mad\", the other finds out why (or guesses from a riddle) and gets exactly how to fix it — plus chat, calls, shared games, a reading list, dates and reminders, and an AI repair coach.", tech:["Next.js","TypeScript","Tailwind","Supabase"], link:"", repo:""},
+  {name:"Palika Shiksha", status:"private", desc:"Bilingual (English/Nepali) school management system built for a rural Nepali municipality: attendance, exam notices, homework and complaints, with role-scoped dashboards for students, teachers, the principal, ward officials and admins.", tech:["Node.js","Express","PostgreSQL"], link:"", repo:""},
+  {name:"Hotel Intelligence", status:"private", desc:"Monitors hotel prices across multiple markets (official sites and Booking.com), stores the price history in Supabase, and serves it through a Streamlit dashboard with an AI analyst you can ask about trends.", tech:["Python","Playwright","Supabase","Streamlit"], link:"", repo:""},
+  {name:"Nutrition consultancy site", status:"private", desc:"Full-stack site for a nutrition consultancy: service packages, bookable sessions, products and offers, with an admin panel to manage all of it.", tech:["Next.js","Node.js","Express"], link:"", repo:""},
+  {name:"Question Management System", status:"live", desc:"Academic question bank built on Django, with async processing via Celery — separate apps for academics, teacher tools, student accounts and the question bank itself.", tech:["Django","Celery"], link:"", repo:"https://github.com/SajanBista/Question-Management-system"},
+  {name:"Wedding Venue Scraper", status:"live", desc:"A Scrapy spider for Wedding-Spot.com: venue name, phone, capacity, highlights and address, with pagination handled.", tech:["Python","Scrapy"], link:"", repo:"https://github.com/SajanBista/ScrapingWeddingVenues"},
+  {name:"ToyHub Nepal", status:"live", desc:"A small-scale Django toy e-commerce catalog — categories, products and orders. An early, unpolished build, included here for transparency rather than as a flagship.", tech:["Django"], link:"", repo:"https://github.com/SajanBista/ToyHub-Nepal"},
+];
+
+function renderProjects(){
+  $("#projGrid").innerHTML = BUILT_PROJECTS.map(p => {
+    const tech = p.tech.map(t => `<span>${esc(t)}</span>`).join("");
+    const act = p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">Visit →</a>`
+      : p.repo ? `<a href="${esc(p.repo)}" target="_blank" rel="noopener">View code →</a>`
+      : `<span>Ask about this one</span>`;
+    return `<article class="card proj-card">
+      <div class="top"><span class="status ${p.status}">${statusText[p.status]}</span></div>
+      <h3>${esc(p.name)}</h3><p>${esc(p.desc)}</p>
+      <div class="proj-tech">${tech}</div>
+      <div class="foot">${act}</div>
+    </article>`;
+  }).join("");
+}
+
 function render(){
   const q = $("#q").value.trim().toLowerCase();
   const full = matches();
@@ -250,7 +299,7 @@ function render(){
     const act = p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">Try it →</a>` : `<span>Ask for a demo</span>`;
     return `<article class="card">
       <div class="top"><span class="cat">${esc(p.cat)}</span><span class="status ${p.status}">${statusText[p.status]}</span></div>
-      <h3>${esc(p.name)}</h3><p>${esc(p.desc)}</p>
+      <h3>${esc(cleanTitle(p.name))}</h3><p>${esc(p.desc)}</p>
       <div class="pipe">${pipe}</div>
       <div class="foot">${used}${act}</div></article>`;
   }).join("");
@@ -291,7 +340,7 @@ function clock(){
     (on ? "Working now, quick replies" : "Off hours, reply by tomorrow");
 }
 
-stats(); chips(); render(); clock(); setInterval(clock, 30000);
+stats(); chips(); render(); renderProjects(); clock(); setInterval(clock, 30000);
 </script>
 </body>
 </html>
